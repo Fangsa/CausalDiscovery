@@ -1,0 +1,11 @@
+#python SparCC.py example/fake_data.txt -i 5 --cor_file=example/basis_corr/cor_pearson.out -a pearson
+#python SparCC.py example/fake_data.txt -i 5 --cor_file=example/basis_corr/cor_spearman.out -a spearman
+
+
+for /l %i in (1,1,25) do (
+python2 D:\Fangsa\software\SparCC\SparCC.py C:\Users\Administrator\Desktop\causal_compare\beem_e\gLV_CS_R_200\SparCC\RA_%i.txt -i 100 --cor_file=C:\Users\Administrator\Desktop\causal_compare\beem_e\gLV_CS_R_200\SparCC\%i_sparcc.txt
+python2 D:\Fangsa\software\SparCC\MakeBootstraps.py C:\Users\Administrator\Desktop\causal_compare\beem_e\gLV_CS_R_200\SparCC\RA_%i.txt -n 1000 -t permutation_#.txt -p C:\Users\Administrator\Desktop\causal_compare\beem_e\gLV_CS_R_200\SparCC\%i_pvals\
+for /l %j in (0,1,999) do python2 D:\Fangsa\software\SparCC\SparCC.py C:\Users\Administrator\Desktop\causal_compare\beem_e\gLV_CS_R_200\SparCC\%i_pvals\permutation_%j.txt -i 100 --cor_file=C:\Users\Administrator\Desktop\causal_compare\beem_e\gLV_CS_R_200\SparCC\%i_pvals\perm_cor_%j.txt
+python2 D:\Fangsa\software\SparCC\PseudoPvals.py C:\Users\Administrator\Desktop\causal_compare\beem_e\gLV_CS_R_200\SparCC\%i_sparcc.txt C:\Users\Administrator\Desktop\causal_compare\beem_e\gLV_CS_R_200\SparCC\%i_pvals\perm_cor_#.txt 1000 -o C:\Users\Administrator\Desktop\causal_compare\beem_e\gLV_CS_R_200\SparCC\%i_pvals.one_sided.txt -t one_sided
+python2 D:\Fangsa\software\SparCC\PseudoPvals.py C:\Users\Administrator\Desktop\causal_compare\beem_e\gLV_CS_R_200\SparCC\%i_sparcc.txt C:\Users\Administrator\Desktop\causal_compare\beem_e\gLV_CS_R_200\SparCC\%i_pvals\perm_cor_#.txt 1000 -o C:\Users\Administrator\Desktop\causal_compare\beem_e\gLV_CS_R_200\SparCC\%i_pvals.two_sided.txt -t two_sided
+)
